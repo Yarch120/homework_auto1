@@ -1,23 +1,31 @@
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
 class ShopPage:
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
-
+    def __init__(self, driver=None):
+        if driver is None:
+            self.driver = webdriver.Firefox()
+            self.driver.implicitly_wait(3)
+            self.driver.maximize_window()
+            self._own_driver = True
+        else:
+            self.driver = driver
+            self._own_driver = False
+        self.wait = WebDriverWait(self.driver, 10)
+    
     def open(self):
         self.driver.get("https://www.saucedemo.com")
 
+    def waiting(self):
+        self.wait.until(lambda driver: driver.execute_script("return document.readyState") == "complete")
+    
     def authorization(self):
         self.driver.find_element(By.CSS_SELECTOR, "#user-name").send_keys("standard_user")
         self.driver.find_element(By.CSS_SELECTOR, "#password").send_keys("secret_sauce")
         self.driver.find_element(By.CSS_SELECTOR, "#login-button").click()
-
-    def waiting(self):
-        self.wait.until(lambda driver: driver.execute_script("return document.readyState") == "complete")
 
     def add_to_cart(self):
         self.driver.find_element(By.CSS_SELECTOR, "#add-to-cart-sauce-labs-backpack").click()
@@ -39,3 +47,7 @@ class ShopPage:
         total_value = Total.replace("Total: $", "").strip()
         assert total_value == "58.29", f"Ожидалась сумма $58.29, получена {Total}"
         print(f"Итоговая сумма корректна: {Total}")
+
+    def close(self):
+        if self._own_driver:
+            self.driver.quit()
