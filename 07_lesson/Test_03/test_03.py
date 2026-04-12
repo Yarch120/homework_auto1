@@ -5,6 +5,7 @@ import pytest
 from shop_page import ShopPage
 import allure
 
+
 @allure.suite("Интернет-магазин")
 @allure.epic("Тестирование интернет-магазина")
 @allure.feature("Корзина и оформление заказа")

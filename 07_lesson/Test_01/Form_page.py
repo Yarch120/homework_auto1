@@ -24,7 +24,6 @@ class FormPage:
             self.driver = driver
             self._own_driver = False
         self.wait = WebDriverWait(self.driver, 10)
-        
         # Тестовые данные для заполнения формы
         self.fields = {
             'first-name': "Иван",
@@ -63,7 +62,7 @@ class FormPage:
     @allure.step("Получение CSS-класса поля")
     def get_field_class(self, field_id):
         """
-        Возвращает CSS-класс указанного поля.        
+        Возвращает CSS-класс указанного поля.
         Returns:
             str: CSS-класс элемента
         """

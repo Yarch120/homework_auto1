@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import allure
 
+
 @allure.epic("Тестирование интернет-магазина")
 @allure.story("Покупка товаров и проверка итоговой суммы")
 class ShopPage:
@@ -26,7 +27,7 @@ class ShopPage:
             self.driver = driver
             self._own_driver = False
         self.wait = WebDriverWait(self.driver, 10)
-    
+
     @allure.step("Открытие страницы магазина")
     def open(self):
         """Открывает страницу интернет-магазина"""
@@ -36,7 +37,7 @@ class ShopPage:
     def waiting(self):
         """Ожидает полной загрузки страницы (readyState = complete)"""
         self.wait.until(lambda driver: driver.execute_script("return document.readyState") == "complete")
-    
+
     @allure.step("Авторизация в магазине")
     def authorization(self):
         """Выполняет авторизацию с тестовыми учётными данными, используя локаторы"""
